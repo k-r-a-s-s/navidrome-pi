@@ -1,0 +1,61 @@
+directory: /mnt/musicdrive/Music
+library: /mnt/musicdrive/Music/musiclibrary.db
+
+import:
+  move: yes
+  copy: no
+  write: yes
+  incremental: yes
+  quiet_fallback: skip
+  timid: no
+  log: /mnt/musicdrive/Music/beets-import.log
+
+paths:
+  default: $albumartist/$album%aunique{}/$track $title
+  singleton: Non-Album/$artist/$title
+  comp: Compilations/$album%aunique{}/$track $title
+  albumtype_soundtrack: Soundtracks/$album/$track $title
+
+plugins: fetchart embedart chroma lastgenre scrub replaygain
+
+musicbrainz:
+  searchlimit: 5
+
+match:
+  strong_rec_thresh: 0.04
+  medium_rec_thresh: 0.25
+  rec_gap_thresh: 0.25
+  max_rec:
+    missing_tracks: medium
+    unmatched_tracks: medium
+
+fetchart:
+  auto: yes
+  cautious: yes
+  cover_names: cover folder album front
+  sources: filesystem coverart itunes amazon albumart
+  store_source: yes
+
+embedart:
+  auto: yes
+  ifempty: no
+  maxwidth: 1000
+  quality: 95
+
+chroma:
+  auto: no
+
+lastgenre:
+  auto: yes
+  source: album
+
+scrub:
+  auto: yes
+
+replaygain:
+  auto: no
+  overwrite: no
+
+# Unmatched files go here for manual review
+paths:
+  unmatched: Unmatched/$artist/$album/$track $title 
